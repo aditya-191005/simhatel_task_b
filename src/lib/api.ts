@@ -2,6 +2,12 @@ import type { Country } from "@/types/country";
 
 const BASE_URL = "https://countriesnow.space/api/v0.1";
 
+const FETCH_OPTIONS = {
+  next: {
+    revalidate: 86400, // Cache for 24 hours
+  },
+};
+
 interface CountriesResponse {
   error: boolean;
   msg: string;
@@ -29,7 +35,7 @@ interface CapitalsResponse {
   data: {
     name: string;
     iso2: string;
-    iso3: string;   
+    iso3: string;
     capital: string;
   }[];
 }
@@ -37,7 +43,7 @@ interface CapitalsResponse {
 interface CurrencyResponse {
   error: boolean;
   msg: string;
-    data: {
+  data: {
     name: string;
     iso2: string;
     iso3: string;
@@ -56,22 +62,18 @@ interface DialCodeResponse {
 }
 
 export async function getCountries(): Promise<Country[]> {
-  const [countriesResponse, flagsResponse, capitalsResponse,currencyResponse,dialCodeResponse] = await Promise.all([
-    fetch(`${BASE_URL}/countries`, {
-      cache: "no-store",
-    }),
-    fetch(`${BASE_URL}/countries/flag/images`, {
-      cache: "no-store",
-    }),
-    fetch(`${BASE_URL}/countries/capital`, {
-      cache: "no-store",
-    }),
-    fetch(`${BASE_URL}/countries/currency`, {
-      cache: "no-store",
-    }),
-    fetch(`${BASE_URL}/countries/codes`, {
-      cache: "no-store",
-    }),
+  const [
+    countriesResponse,
+    flagsResponse,
+    capitalsResponse,
+    currencyResponse,
+    dialCodeResponse,
+  ] = await Promise.all([
+    fetch(`${BASE_URL}/countries`, FETCH_OPTIONS),
+    fetch(`${BASE_URL}/countries/flag/images`, FETCH_OPTIONS),
+    fetch(`${BASE_URL}/countries/capital`, FETCH_OPTIONS),
+    fetch(`${BASE_URL}/countries/currency`, FETCH_OPTIONS),
+    fetch(`${BASE_URL}/countries/codes`, FETCH_OPTIONS),
   ]);
 
   const countriesResult: CountriesResponse =
@@ -94,15 +96,24 @@ export async function getCountries(): Promise<Country[]> {
   );
 
   const capitalMap = new Map<string, string>(
-    capitalsResult.data.map((capital) => [capital.iso3, capital.capital])
+    capitalsResult.data.map((capital) => [
+      capital.iso3,
+      capital.capital,
+    ])
   );
 
   const currencyMap = new Map<string, string>(
-    currencyResult.data.map((currency) => [currency.iso3, currency.currency])
+    currencyResult.data.map((currency) => [
+      currency.iso3,
+      currency.currency,
+    ])
   );
 
   const dialCodeMap = new Map<string, string>(
-    dialCodeResult.data.map((dialCode) => [dialCode.name, dialCode.dial_code])
+    dialCodeResult.data.map((dialCode) => [
+      dialCode.name,
+      dialCode.dial_code,
+    ])
   );
 
   return countriesResult.data.map((country) => ({
