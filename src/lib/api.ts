@@ -60,6 +60,41 @@ interface DialCodeResponse {
     dial_code: string;
   }[];
 }
+
+interface PopulationResponse {
+  error: boolean;
+  msg: string;
+  data: {
+    country: string;
+    code: string;
+    iso3: string;
+    populationCounts: {
+      year: number;
+      value: number;
+    }[];
+  };
+}
+
+interface StatesResponse {
+  error: boolean;
+  msg: string;
+  data: {
+    name: string;
+    iso3: string;
+    states: {
+      name: string;
+      state_code: string;
+    }[];
+  };
+}
+
+interface CitiesResponse {
+  error: boolean;
+  msg: string;
+  data: string[];
+}
+
+
 export async function getCountries(): Promise<Country[]> {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const [
@@ -135,3 +170,84 @@ export async function getCountryByIso3(
     (country) => country.iso3.toLowerCase() === iso3.toLowerCase()
   );
 }
+
+export async function getCountryPopulation(
+  iso3: string
+): Promise<{ year: number; value: number }[]> {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/countries/population`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ iso3 }),
+        ...FETCH_OPTIONS,
+      }
+    );
+
+    const result: PopulationResponse =
+      await response.json();
+
+    return result.data.populationCounts ?? [];
+  } catch (error) {
+    console.error("Population Error:", error);
+    return [];
+  }
+}
+
+export async function getCountryStates(
+  country: string
+): Promise<string[]> {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/countries/states`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ country }),
+        ...FETCH_OPTIONS,
+      }
+    );
+
+    const result: StatesResponse =
+      await response.json();
+
+    return result.data.states.map(
+      (state) => state.name
+    );
+  } catch (error) {
+    console.error("States Error:", error);
+    return [];
+  }
+}
+
+export async function getCountryCities(
+  country: string
+): Promise<string[]> {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/countries/cities`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ country }),
+        ...FETCH_OPTIONS,
+      }
+    );
+
+    const result: CitiesResponse =
+      await response.json();
+
+    return result.data ?? [];
+  } catch (error) {
+    console.error("Cities Error:", error);
+    return [];
+  }
+}
+
