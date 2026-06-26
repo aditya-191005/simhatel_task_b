@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import DashboardContainer from "@/components/DashboardContainer";
 import { getCountries } from "@/lib/api";
 
 export default async function Home() {
@@ -10,7 +9,6 @@ export default async function Home() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Header />
 
-        <DashboardContainer countries={countries} />
       </div>
     </main>
   );
