@@ -60,8 +60,8 @@ interface DialCodeResponse {
     dial_code: string;
   }[];
 }
-
 export async function getCountries(): Promise<Country[]> {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const [
     countriesResponse,
     flagsResponse,
@@ -115,7 +115,6 @@ export async function getCountries(): Promise<Country[]> {
       dialCode.dial_code,
     ])
   );
-
   return countriesResult.data.map((country) => ({
     name: country.country,
     iso2: country.iso2,
