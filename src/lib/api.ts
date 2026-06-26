@@ -115,3 +115,13 @@ export async function getCountries(): Promise<Country[]> {
     dialCode: dialCodeMap.get(country.country),
   }));
 }
+
+export async function getCountryByIso3(
+  iso3: string
+): Promise<Country | undefined> {
+  const countries = await getCountries();
+
+  return countries.find(
+    (country) => country.iso3.toLowerCase() === iso3.toLowerCase()
+  );
+}
