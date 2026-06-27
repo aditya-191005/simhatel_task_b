@@ -190,7 +190,7 @@ export async function getCountryPopulation(
     const result: PopulationResponse =
       await response.json();
 
-    return result.data.populationCounts ?? [];
+    return result.data?.populationCounts ?? [];
   } catch (error) {
     console.error("Population Error:", error);
     return [];

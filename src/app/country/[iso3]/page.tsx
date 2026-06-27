@@ -1,7 +1,6 @@
 import BackButton from "@/components/BackButton";
 import { notFound } from "next/navigation";
 import {
-  ArrowLeft,
   Building2,
   Coins,
   Phone,
@@ -18,6 +17,7 @@ import {
 
 import PopulationChart from "@/components/PopulationChart";
 import StatesAndCities from "@/components/StatesAndCities";
+import FlagImage from "@/components/FlagImage";
 
 interface CountryPageProps {
   params: Promise<{
@@ -60,19 +60,12 @@ export default async function CountryPage({ params }: CountryPageProps) {
           <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
             {/* Flag image */}
             <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:h-32 sm:w-32">
-              {country.flag ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={country.flag}
-                  alt={`Flag of ${country.name}`}
-                  className="h-full w-full object-cover"
-                  loading="eager"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-5xl">
-                  🌍
-                </div>
-              )}
+              <FlagImage
+                src={country.flag}
+                alt={`Flag of ${country.name}`}
+                className="h-full w-full object-cover"
+                size="lg"
+              />
             </div>
 
             {/* Title and Badge Metadata */}

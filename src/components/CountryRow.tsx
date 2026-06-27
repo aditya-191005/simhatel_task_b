@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import FlagImage from "./FlagImage";
 
 import type { Country } from "@/types/country";
 
@@ -14,17 +15,11 @@ export default function CountryRow({ country }: CountryRowProps) {
       {/* Flag */}
       <td className="px-6 py-3.5">
         <div className="flex h-10 w-14 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-          {country.flag ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={country.flag}
-              alt={`${country.name} flag`}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          ) : (
-            <span className="text-lg">🏳️</span>
-          )}
+          <FlagImage
+            src={country.flag}
+            alt={`Flag of ${country.name}`}
+            className="h-full w-full object-cover"
+          />
         </div>
       </td>
 

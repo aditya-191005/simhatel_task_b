@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import FlagImage from "./FlagImage";
 
 import type { Country } from "@/types/country";
 
@@ -14,19 +15,11 @@ export default function CountryCard({ country }: CountryCardProps) {
       {/* Header Flag & Name */}
       <div className="flex items-center gap-4">
         <div className="h-10 w-14 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-700/60 dark:bg-slate-950">
-          {country.flag ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={country.flag}
-              alt={`${country.name} flag`}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center text-xl">
-              🏳️
-            </div>
-          )}
+          <FlagImage
+            src={country.flag}
+            alt={`Flag of ${country.name}`}
+            className="h-full w-full object-cover"
+          />
         </div>
 
         <div className="min-w-0 flex-1">
