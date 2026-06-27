@@ -4,7 +4,10 @@ export interface Country{
     iso3: string;
 
     flag?: string;
-    population?: number;
+    population?: {
+        year: number;
+        value: number;
+        }[];
     currency?: string;
     capital?: string;
     dialCode?: string;
