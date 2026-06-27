@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useTransition } from "react";
+import { useCallback, useMemo, useTransition } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import type { Country } from "@/types/country";
@@ -53,35 +53,44 @@ export default function DashboardContainer({
   );
 
   // Transition wrappers for router navigation (shows TableSkeleton immediately while loading)
-  const handleSearchChange = (searchValue: string) => {
-    startTransition(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      const trimmed = searchValue.trim();
+  const handleSearchChange = useCallback((searchValue: string) => {
+    const trimmed = searchValue.trim();
+    const params = new URLSearchParams(searchParams.toString());
 
-      if (trimmed.length >= 3) {
-        params.set("search", trimmed);
-      } else {
-        params.delete("search");
-      }
+    if (trimmed.length >= 3) {
+      params.set("search", trimmed);
+    } else {
+      params.delete("search");
+    }
+    params.set("page", "1");
 
-      params.set("page", "1");
+    const newQuery = params.toString();
+    const currentQuery = searchParams.toString();
 
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
+    if (newQuery !== currentQuery) {
+      startTransition(() => {
+        router.replace(`${pathname}?${newQuery}`, {
+          scroll: false,
+        });
       });
-    });
-  };
+    }
+  }, [searchParams, pathname, router]);
 
-  const handlePageChange = (pageNumber: number) => {
-    startTransition(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("page", pageNumber.toString());
+  const handlePageChange = useCallback((pageNumber: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", pageNumber.toString());
 
-      router.push(`${pathname}?${params.toString()}`, {
-        scroll: false,
+    const newQuery = params.toString();
+    const currentQuery = searchParams.toString();
+
+    if (newQuery !== currentQuery) {
+      startTransition(() => {
+        router.push(`${pathname}?${newQuery}`, {
+          scroll: false,
+        });
       });
-    });
-  };
+    }
+  }, [searchParams, pathname, router]);
 
   return (
     <section className="space-y-6">
