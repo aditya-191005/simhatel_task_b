@@ -9,7 +9,7 @@ export default function CountryCards({
   countries,
 }: CountryCardsProps) {
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-4 sm:grid-cols-2">
       {countries.map((country) => (
         <CountryCard
           key={country.iso3}

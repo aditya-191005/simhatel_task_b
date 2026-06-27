@@ -15,7 +15,7 @@ export default function NotFound() {
         </h2>
 
         <p className="mt-4 text-slate-600 dark:text-slate-400">
-          The page or country you are looking for doesn't exist or may have been
+          The page or country you are looking for doesn&apos;t exist or may have been
           moved.
         </p>
 

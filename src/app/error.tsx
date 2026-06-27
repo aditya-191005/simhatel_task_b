@@ -24,7 +24,7 @@ export default function Error({
         </h1>
 
         <p className="mt-4 text-slate-600 dark:text-slate-400">
-          We couldn't load the requested information.
+          We couldn&apos;t load the requested information.
           Please try again.
         </p>
 

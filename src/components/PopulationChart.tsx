@@ -45,7 +45,7 @@ export default function PopulationChart({ data }: PopulationChartProps) {
         <div>
           <div className="flex items-center gap-2">
             <Users className="text-indigo-600 dark:text-indigo-400" size={24} />
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-2xl font-bold text-slate-950 dark:text-slate-50">
               Population Growth
             </h2>
           </div>
@@ -54,14 +54,14 @@ export default function PopulationChart({ data }: PopulationChartProps) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 rounded-2xl bg-slate-50 px-4 py-2 text-sm font-medium dark:bg-slate-800/50">
+        <div className="flex items-center gap-2.5 rounded-2xl bg-slate-50 border border-slate-100 px-4 py-2 text-sm font-medium dark:border-slate-800 dark:bg-slate-800">
           <TrendingUp
             className={`h-4 w-4 ${isGrowing ? "text-emerald-500" : "text-rose-500"}`}
           />
-          <span className="text-slate-600 dark:text-slate-300">
+          <span className="text-slate-600 dark:text-slate-400">
             Growth over time:
           </span>
-          <span className={`font-semibold ${isGrowing ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+          <span className={`font-semibold ${isGrowing ? "text-emerald-600 dark:text-emerald-450" : "text-rose-600 dark:text-rose-400"}`}>
             {isGrowing ? "+" : ""}{percentChange.toFixed(1)}%
           </span>
         </div>
@@ -81,7 +81,7 @@ export default function PopulationChart({ data }: PopulationChartProps) {
             </defs>
             <CartesianGrid
               strokeDasharray="3 3"
-              className="stroke-slate-200 dark:stroke-slate-800"
+              className="stroke-slate-200 dark:stroke-slate-850"
               vertical={false}
             />
             <XAxis
@@ -89,7 +89,7 @@ export default function PopulationChart({ data }: PopulationChartProps) {
               dy={10}
               tickLine={false}
               axisLine={false}
-              className="text-xs fill-slate-400 font-medium"
+              className="text-xs fill-slate-400 font-semibold"
             />
             <YAxis
               tickFormatter={(value) => {
@@ -101,7 +101,7 @@ export default function PopulationChart({ data }: PopulationChartProps) {
               dx={-5}
               tickLine={false}
               axisLine={false}
-              className="text-xs fill-slate-400 font-medium"
+              className="text-xs fill-slate-400 font-semibold"
             />
             <Tooltip
               content={({ active, payload }) => {
@@ -112,10 +112,10 @@ export default function PopulationChart({ data }: PopulationChartProps) {
                       <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                         Year {dataPoint.year}
                       </p>
-                      <p className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
+                      <p className="mt-1 text-lg font-bold text-slate-955 dark:text-slate-50">
                         {dataPoint.value.toLocaleString()}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium">
+                      <p className="text-xs text-slate-500 font-semibold">
                         Total Population
                       </p>
                     </div>

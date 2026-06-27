@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode manually triggered by .dark class on <html> in Tailwind CSS v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc; /* Premium slate-50 light background */
+  --foreground: #0f172a; /* Slate-900 light text */
+  --border: #e2e8f0;     /* Slate-200 border */
+}
+
+.dark {
+  --background: #030712; /* Slate-950 premium dark background */
+  --foreground: #f9fafb; /* Slate-50 dark text */
+  --border: #1f2937;     /* Slate-800 border */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans), Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base custom styles for scrollbars and text inputs */
+* {
+  border-color: var(--border);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+.dark input::placeholder {
+  color: #4b5563;
 }

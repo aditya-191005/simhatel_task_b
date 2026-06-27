@@ -1,75 +1,66 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { Search, X } from "lucide-react";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { Search, X, Loader2 } from "lucide-react";
 
 interface SearchBarProps {
-  search: string;
+  value: string;
+  onChange: (value: string) => void;
+  isPending?: boolean;
 }
 
 export default function SearchBar({
-  search,
+  value,
+  onChange,
+  isPending = false,
 }: SearchBarProps) {
-  const [value, setValue] = useState(search);
+  const [localValue, setLocalValue] = useState(value);
+  const [prevSearchProp, setPrevSearchProp] = useState(value);
 
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // Sync local input value with parent prop during render (e.g. back/forward browser navigation)
+  if (value !== prevSearchProp) {
+    setLocalValue(value);
+    setPrevSearchProp(value);
+  }
 
-  // Keep input synced with URL (Back/Forward navigation)
-  useEffect(() => {
-    setValue(search);
-  }, [search]);
-
-  // Debounced URL update
+  // Debounce the change propagation to the parent container
   useEffect(() => {
     const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (value.trim().length >= 3) {
-        params.set("search", value.trim());
-      } else {
-        params.delete("search");
+      if (localValue !== value) {
+        onChange(localValue);
       }
-
-      // Whenever search changes, go back to page 1
-      params.set("page", "1");
-
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [localValue, value, onChange]);
 
   return (
-    <div className="relative w-full lg:w-96">
-      <Search
-        size={18}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-      />
+    <div className="relative w-full flex-1 lg:w-96 lg:flex-initial">
+      {/* Dynamic search / spinner icon feedback */}
+      <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
+        {isPending ? (
+          <Loader2 size={16} className="animate-spin text-indigo-500 dark:text-indigo-400" />
+        ) : (
+          <Search size={16} />
+        )}
+      </div>
 
       <input
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         placeholder="Search countries..."
-        className="h-12 w-full rounded-xl border border-slate-300 bg-white pl-11 pr-11 text-sm text-slate-900 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+        className="h-10 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-9 pr-9 text-sm text-slate-900 shadow-sm outline-none transition-all duration-200 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-indigo-500 dark:focus:bg-slate-950 dark:focus:ring-indigo-500/20"
       />
 
-      {value && (
+      {localValue && (
         <button
-          onClick={() => setValue("")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 hover:bg-slate-100 dark:hover:bg-slate-800"
+          onClick={() => setLocalValue("")}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+          type="button"
+          aria-label="Clear search"
         >
-          <X size={16} />
+          <X size={14} />
         </button>
       )}
     </div>
