@@ -96,7 +96,6 @@ interface CitiesResponse {
 
 
 export async function getCountries(): Promise<Country[]> {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   const [
     countriesResponse,
     flagsResponse,

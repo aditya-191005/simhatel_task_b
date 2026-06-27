@@ -64,7 +64,6 @@ export default async function CountryPage({ params }: CountryPageProps) {
                 src={country.flag}
                 alt={`Flag of ${country.name}`}
                 className="h-full w-full object-cover"
-                size="lg"
               />
             </div>
 
