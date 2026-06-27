@@ -78,19 +78,22 @@ The task objectives included:
 
 ## Screenshots
 
-*(Placeholder sections for application screenshots)*
-
 ### Dashboard View (Desktop Table)
-`[Add Dashboard Screenshot Here]`
+![Dashboard View (Desktop Table)](screenshots/country%20table%20desktop%20view.png)
 
 ### Country Profile & Population Chart (Desktop View)
-`[Add Country Details Page Screenshot Here]`
+![Country Profile & Population Chart (Desktop View)](screenshots/country%20card%20desktop%20view.png)
 
-### Mobile View (Cards Layout)
-`[Add Mobile View Screenshot Here]`
+### Mobile Views
 
-### Dark Mode View
-`[Add Dark Mode UI Screenshot Here]`
+#### Dashboard View (Cards Layout)
+![Dashboard View (Cards Layout)](screenshots/countries%20cards%20mobile%20view.png)
+
+#### Country Card Quick Info
+![Country Card Quick Info](screenshots/country%20card%20mobile%20view.png)
+
+#### Population, States & Cities Details
+![Population, States & Cities Details](screenshots/population%20,%20states,cities%20mobile%20view.png)
 
 ---
 
